@@ -1,0 +1,24 @@
+﻿<div ng-controller="BuddiesController as budCtrl" class="form-main">
+    <form name="findForm" ng-submit="findForm.$valid && budCtrl.search()" novalidate ng-hide="budCtrl.foundBuddy">
+        <div class="form-group">
+            <label>search :</label>
+            <input type="text" ng-model="budCtrl.searchName" required class="ng-pristine ng-valid form-control" placeholder="Search string for user, first or last name" />
+        </div>
+        <input type="submit" class="btn btn-primary btn-default" value="Search Buddy" required />
+        <h3>User Name : {{budCtrl.searchName}}</h3>
+    </form>
+    <div ng-show="budCtrl.foundBuddy" class="form-main">
+        <form name="buddyForm" ng-submit="budCtrl.addBuddy()" novalidate>
+            <h3 class="form-control">
+                First Name : {{budCtrl.newBuddy.firstName}}
+            </h3>
+            <h3 class="form-control">
+                Last Name : {{budCtrl.newBuddy.lastName}}
+            </h3>
+            <h3 class="form-control">
+                User Name : {{budCtrl.newBuddy.userName}}
+            </h3>
+            <input type="submit" class="btn btn-primary btn-default" value="Add Buddy" required />
+        </form>
+    </div>
+</div>

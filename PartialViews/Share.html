@@ -1,0 +1,115 @@
+﻿<div ng-controller="ShareController as shCtrl">
+    <div class="row-same-height row-full-height">
+        <div class="col-lg-12 col-lg-height col-full-height">
+            <div class="form-main">
+                <h3>Upload file as resource</h3>
+                <form name="uploadForm" ng-submit="shCtrl.file && shCtrl.upload()" novalidate>
+                    <div class="form-group">
+                        <label>File Name :</label>
+                        <input name="fileName" type="file" file-model="shCtrl.file" 
+                               class="ng-pristine ng-valid form-control" 
+                               placeholder="Select a file ..." required />
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-default" value="Upload" required />
+                </form>            </div>
+            <div class="form-main">
+                <h4>Upload text as resource (type or paste below)</h4>
+                <form name="editForm" ng-submit="!editForm.editCtrl.$error.required && shCtrl.editload(editForm.editCtrl)">
+                    <div class="form-group">
+                        <div contenteditable name="editCtrl" ng-model="userInput" strip-br="true" required></div>
+                        <input type="submit" class="btn btn-primary btn-default" value="Upload" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-12 col-lg-height col-full-height" style="margin-bottom:10px;">
+            <uib-accordion>
+                <uib-accordion-group is-open="clippingsOpen" panel-class="panel-primary">
+                    <uib-accordion-heading>My clippings 
+                    <i class="pull-right glyphicon" 
+                       ng-class="{'glyphicon-chevron-down': clippingsOpen, 'glyphicon-chevron-right': !clippingsOpen}">
+                    </i>
+                    </uib-accordion-heading>
+                    <div ng-repeat="x in shCtrl.contents">
+                        <div class="resourceCell" ng-bind-html="x.resource"></div>
+                    </div>
+                </uib-accordion-group>
+                <uib-accordion-group is-open="buddyclippingsOpen" panel-class="panel-primary">
+                    <uib-accordion-heading>My Buddies clippings 
+                    <i class="pull-right glyphicon" 
+                       ng-class="{'glyphicon-chevron-down': buddyclippingsOpen, 'glyphicon-chevron-right': !buddyclippingsOpen}">
+                    </i>
+                    </uib-accordion-heading>
+                    <div ng-repeat="bcs in shCtrl.buddyContents">
+                        <div ng-click="buddiesClipsOpen = !buddiesClipsOpen">{{bcs.buddy.firstName + " " + bcs.buddy.lastName}} 
+                        Clippings
+                        <i class="pull-right glyphicon" 
+                           ng-class="{'glyphicon-chevron-down': buddiesClipsOpen, 'glyphicon-chevron-right': !buddiesClipsOpen}">
+                        </i>
+                        </div>
+                        <hr>
+                        <div uib-collapse="!buddiesClipsOpen">
+                            <div ng-repeat="x in bcs.contents">
+                                <div class="resourceCell" ng-bind-html="x.resource"></div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+        <div class="col-lg-8 col-lg-height col-full-height">
+            <uib-accordion>
+                <uib-accordion-group is-open="buddiesOpen" panel-class="panel-primary">
+                    <uib-accordion-heading>
+                        My Buddies 
+                        <i class="pull-right glyphicon" 
+                           ng-class="{'glyphicon-chevron-down': buddiesOpen, 'glyphicon-chevron-right': !buddiesOpen}">
+                        </i>
+                    </uib-accordion-heading>
+                    <div ng-repeat="x in shCtrl.buddies">
+                        <div>{{x.firstName + " " + x.lastName}}</div>
+                    </div>
+                </uib-accordion-group>
+                <uib-accordion-group is-open="filesOpen" panel-class="panel-primary">
+                    <uib-accordion-heading>My files 
+                    <i class="pull-right glyphicon" 
+                       ng-class="{'glyphicon-chevron-down': filesOpen, 'glyphicon-chevron-right': !filesOpen}">
+                    </i>
+                    </uib-accordion-heading>
+                    <div class="linkCollection" ng-repeat="x in shCtrl.files">
+                        <a href={{x.link}} target="_self" uib-tooltip="{{x.name}}"
+                           tooltip-placement="right-top" tooltip-append-to-body="true"
+                           tooltip-popup-close-delay="200">{{x.name}}</a>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group is-open="buddyFilesOpen" panel-class="panel-primary">
+                    <uib-accordion-heading>
+                        My Buddies files 
+                        <i class="pull-right glyphicon" 
+                           ng-class="{'glyphicon-chevron-down': buddyFilesOpen, 'glyphicon-chevron-right': !buddyFilesOpen}">
+                        </i>
+                    </uib-accordion-heading>
+                    <div ng-repeat="bfs in shCtrl.buddyFiles">
+                        <div ng-click="buddyFilesOpen = !buddyFilesOpen">
+                            {{bfs.buddy.firstName + " " + bfs.buddy.lastName}} Files
+                            <i class="pull-right glyphicon" 
+                               ng-class="{'glyphicon-chevron-down': buddyFilesOpen, 'glyphicon-chevron-right': !buddyFilesOpen}">
+                            </i>
+                        </div>
+                        <hr>
+                        <div uib-collapse="!buddyFilesOpen">
+                            <div class="linkCollection" ng-repeat="x in bfs.files">
+                                <a href={{x.link}} target="_self" uib-tooltip="{{x.name}}"
+                                   tooltip-placement="right-top" tooltip-append-to-body="true"
+                                   tooltip-popup-close-delay="200">{{x.name}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </uib-accordion-group>
+
+            </uib-accordion>
+
+        </div>
+    </div>
+</div>
